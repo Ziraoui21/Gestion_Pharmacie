@@ -1,0 +1,53 @@
+<div class="modal fade" id="setting" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-gears"></i> Paramètre</h5>
+          <button type="button" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa-solid fa-xmark fa-xl"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="fedit">
+                <div class="mb-3">
+                  <label class="form-label">Nom</label>
+                  <input type="text" [class.is-invalid]="getName?.invalid && getName?.touched" formControlName="name" class="form-control">
+                  <small *ngIf="getName?.invalid && getName?.touched || formInvalid && getName?.invalid" class="text-danger">
+                      Le nom est obligatoire
+                  </small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Adresse email</label>
+                    <input type="email" [class.is-invalid]="getEmail?.invalid && getEmail?.touched || formInvalid && getEmail?.invalid" formControlName="email" class="form-control">
+                    <div *ngIf="getEmail?.invalid && getEmail?.touched">
+                        <small class="text-danger" *ngIf="getEmail?.hasError('required') || formInvalid && getEmail?.invalid">
+                          L'adreese email est obligatoire
+                        </small>
+                        <small class="text-danger" *ngIf="getEmail?.hasError('email') ">
+                          L'adreese email est invalid
+                        </small>
+                    </div>
+                  </div>
+                <div class="mb-3">
+                  <label class="form-label">Nouveau mot de passe</label>
+                  <input type="password" [class.is-invalid]="getNewPassword?.hasError('minlength') && getNewPassword?.touched" formControlName="newPassword" class="form-control">
+                  <small class="text-danger" *ngIf="getNewPassword?.hasError('minlength') && getNewPassword?.touched || formInvalid && getNewPassword?.invalid">
+                      Mot de passe doit être contient au minimum 8 caractéres
+                  </small>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Confirmer mot de passe</label>
+                  <input type="password" formControlName="confirmPassword" class="form-control">
+                  <small class="text-danger" *ngIf="!checkConfirmpassword() && getConfirmPassword?.touched || formInvalid && !checkConfirmpassword() " class="text-danger">
+                    Ces mots de passe ne correspondent pas. Veuillez réssayer
+                  </small>
+                </div>
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <button type="button" (click)="edit()" class="btn btn-success"><i class="fa-solid fa-user-pen"></i> Modifier</button>
+        </div>
+      </div>
+    </div>
+</div>

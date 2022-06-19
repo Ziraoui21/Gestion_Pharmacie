@@ -1,0 +1,211 @@
+<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasTopLabel"><i class="fa-solid fa-arrow-right-arrow-left"></i> Les opérations</h5>
+      <button type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+         <i class="fa-solid fa-xmark fa-xl"></i>
+      </button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="row">
+        <div *ngIf="entrees!=null && entrees.length!=0" class="col-md-6">
+            <h4>Les entrées</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th><i class="fa-solid fa-hashtag"></i> Code</th>
+                        <th><i class="fa-solid fa-box"></i> Quantité</th>
+                        <th><i class="fa-solid fa-calendar-check"></i> Date entrée</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let entree of entrees">
+                        <td>{{entree.id}}</td>
+                        <td>{{entree.qte}}</td>
+                        <td>{{entree.date_entree | date: 'dd/MM/yyyy'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="sorties!=null && sorties.length!=0 || factures!=null && factures.length!=0" 
+        class="col-md-6">
+            <h4>Les sorties</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th><i class="fa-solid fa-hashtag"></i> Code</th>
+                        <th><i class="fa-solid fa-box"></i> Quantité</th>
+                        <th><i class="fa-solid fa-calendar-check"></i> Date sortie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let sortie of sorties">
+                        <td>{{sortie.id}}</td>
+                        <td>{{sortie.qte}}</td>
+                        <td>{{sortie.date_sortie | date: 'dd/MM/yyyy'}}</td>
+                    </tr>
+                    <tr *ngFor="let facture of factures">
+                        <td>{{facture.pivot.id}}</td>
+                        <td>{{facture.pivot.qte}}</td>
+                        <td>{{facture.pivot.created_at | date: 'dd/MM/yyyy'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <div *ngIf="!hasFactures && !hasSorties && !hasEntrees" class="row">
+        <div class="col-md-12 mt-5">
+            <div class="w-50 mx-auto text-center">
+                <img src="../../../assets/pics/warning.png" class="w-25 h-25 mb-5">
+                <h4>Ce médicament posséde aucune transaction !</h4>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="container-fluid user-cmp">
+    <div class="row">
+        <div class="col-md-12 title">
+            <h4 class="d-inline">
+                <i class="fa-solid fa-notes-medical"></i>
+                Gestion médicaments
+            </h4>
+            <button id="modalopen" data-bs-toggle="modal" data-bs-target="#create-edit" class="btn btn-light float-end btn-sm">
+                <i class="fa-solid fa-prescription-bottle-medical"></i>
+                Nouveau médicament
+            </button>
+        </div>
+       <div class="col-md-12">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th><i class="fa-solid fa-barcode"></i> Ref</th>
+                    <th><i class="fa-solid fa-tag"></i> Libelle</th>
+                    <th><i class="fa-solid fa-money-bill-wave"></i> Prix vente</th>
+                    <th><i class="fa-solid fa-money-bill-wave"></i> Prix d'achat</th>
+                    <th><i class="fa-solid fa-boxes-stacked"></i> Quantité</th>
+                    <th><i class="fa-solid fa-calendar-xmark"></i> Date expiration</th>
+                    <th><i class="fa-solid fa-sliders"></i> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let medicament of medicaments" >
+                    <td>{{medicament.id}}</td>
+                    <td>{{medicament.libelle | titlecase}}</td>
+                    <td>{{medicament.prix_vente}} DH</td>
+                    <td>{{medicament.prix_achat}} DH</td>
+                    <th *ngIf="medicament.qte_s!=0">{{medicament.qte_s}}</th>
+                    <th *ngIf="medicament.qte_s==0" class="text-danger">Expiré</th>
+                    <th [class.text-danger]="!checkExpiration(medicament.date_expiration.toString())">
+                        {{medicament.date_expiration}}
+                    </th>
+                    <td class="actions">
+                        <span (click)="setOperation(medicament)"
+                         data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" class="text-dark">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        </span>
+                        <span (click)="edit(medicament)" data-bs-toggle="modal" data-bs-target="#create-edit" class="text-success">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </span>
+                        <span (click)="delete(medicament)" *ngIf="is_admin" class="text-danger">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+       </div> 
+    </div>
+</div>
+
+<div class="modal fade" id="create-edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 *ngIf="!is_edit" class="modal-title"><i class="fa-solid fa-prescription-bottle-medical"></i> Nouveau médicament</h5>
+            <h5 *ngIf="is_edit" class="modal-title"><i class="fa-solid fa-user-pen"></i> Modification</h5>
+            <button type="button" (click)="createMode()" data-bs-dismiss="modal" aria-label="Close">
+                <i class="fa-solid fa-xmark fa-xl"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Libelle</label>
+                            <input formControlName="libelle" type="text" class="form-control"
+                            [class.is-invalid]="getLibelle?.invalid && getLibelle?.touched || formNotValid && getLibelle?.invalid">
+                            <small class="text-danger" 
+                            *ngIf="getLibelle?.invalid && getLibelle?.touched || formNotValid && getLibelle?.invalid">
+                                Libelle est obligatoire
+                            </small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fournisseur</label>
+                            <select formControlName="fournisseur_id" id="fournisseur" class="form-control"
+                            [class.is-invalid]="getFournisseurId?.invalid && getFournisseurId?.touched || formNotValid && getFournisseurId?.invalid">
+                                <option value="" selected disabled>Sélectionner le fournisseur</option>
+                                <option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur.id">
+                                    {{fournisseur.nom_f}}
+                                </option>
+                            </select>
+                            <small class="text-danger" 
+                            *ngIf="getFournisseurId?.invalid && getFournisseurId?.touched || formNotValid && getFournisseurId?.invalid">
+                                le fournisseur est obligatoire
+                            </small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Prix d'achat</label>
+                            <input formControlName="prix_achat" type="number" class="form-control"
+                            [class.is-invalid]="getPrixAchat?.invalid && getPrixAchat?.touched || formNotValid && getPrixAchat?.invalid">
+                            <small class="text-danger" 
+                            *ngIf="getPrixAchat?.invalid && getPrixAchat?.touched || formNotValid && getPrixAchat?.invalid">
+                                le prix d'achat est obligatoire
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Prix vente</label>
+                            <input formControlName="prix_vente" type="number" class="form-control"
+                            [class.is-invalid]="getPrixVente?.invalid && getPrixVente?.touched || formNotValid && getPrixVente?.invalid">
+                            <small class="text-danger" 
+                            *ngIf="getPrixVente?.invalid && getPrixVente?.touched || formNotValid && getPrixVente?.invalid">
+                                le prix de vente est obligatoire
+                            </small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Quantité</label>
+                            <input formControlName="qte_s" type="number" class="form-control"
+                            [class.is-invalid]="getQteS?.invalid && getQteS?.touched || formNotValid && getQteS?.invalid">
+                            <small class="text-danger" 
+                            *ngIf="getQteS?.invalid && getQteS?.touched || formNotValid && getQteS?.invalid">
+                                la quantité de stock est obligatoire
+                            </small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date d'éxpiration</label>
+                            <input formControlName="date_expiration" type="date" class="form-control"
+                            [class.is-invalid]="getDateExpiration?.invalid && getDateExpiration?.touched || formNotValid && getDateExpiration?.invalid">
+                            <small class="text-danger" 
+                            *ngIf="getDateExpiration?.invalid && getDateExpiration?.touched || formNotValid && getDateExpiration?.invalid">
+                                la date d'éxpiration est obligatoire
+                            </small>
+                            <small class="text-danger"
+                            *ngIf="!checkdate() && getDateExpiration?.touched || formNotValid && !checkdate()">
+                                la date d'éxpiration est invalide
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button (click)="resetForm()" type="button" class="btn btn-secondary">Anuuler</button>
+            <button (click)="create()" *ngIf="!is_edit" type="button" class="btn btn-primary"><i class="fa-solid fa-check"></i> Enregistrer</button>
+            <button (click)="update()" *ngIf="is_edit" type="button" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i> Modifier</button>
+        </div>
+        </div>
+    </div>
+</div>

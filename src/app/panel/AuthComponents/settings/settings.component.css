@@ -1,0 +1,9 @@
+
+.modal-header button{
+    border: none;
+}
+
+.modal-header, .modal-header button{
+    color: white;
+    background-color: #2C3A47;
+}

@@ -1,0 +1,59 @@
+<div class="bglogin">
+    <div class="bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 mx-auto login-wrapper">
+                    <div class="mx-auto mb-5 logo-wrapper">
+                        <h1 class="text-white text-center">
+                            <img src="../../assets/logo/pharmacie.png">
+                             WebPharm</h1>
+                    </div>
+                    <div class="card">
+                        <div class="card-header bg-white">
+                            <h2 class="text-center">Login</h2>
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="flogin">
+                                <div class="mb-3">
+                                  <label class="form-label">Adresse email</label>
+                                  <input type="email" formControlName="email" class="form-control" 
+                                  [class.is-invalid]="getEmail?.invalid && getEmail?.touched || formInvalid && getEmail?.invalid"
+                                  [class.is-valid]="getEmail?.valid">
+                                  <div *ngIf="getEmail?.invalid && getEmail?.touched || formInvalid">
+                                      <small *ngIf="getEmail?.hasError('required') || formInvalid && getEmail?.hasError('required')" class="text-danger">
+                                          L'adresse email est obligatoire <br>
+                                      </small>
+                                      <small *ngIf="getEmail?.hasError('email')" class="text-danger">
+                                          L'adresse email invalid
+                                      </small>
+                                  </div>
+                                </div>
+                                <div class="mb-3">
+                                  <label class="form-label">Mot de passe</label>
+                                  <input type="password" formControlName="password" class="form-control"
+                                  [class.is-invalid]="getPassword?.invalid && getPassword?.touched || formInvalid && getPassword?.invalid"
+                                  [class.is-valid]="getPassword?.valid">
+                                  <div *ngIf="getPassword?.invalid && getPassword?.touched || formInvalid">
+                                    <small *ngIf="getPassword?.hasError('required') || formInvalid && getPassword?.hasError('required')" class="text-danger d-block">
+                                        Mot de passe est obligatoire <br>
+                                    </small>
+                                    <small *ngIf="getPassword?.hasError('minlength')" class="text-danger d-block">
+                                        Mot de passe doit être avoir au minimum 8 caractéres
+                                    </small>
+                                </div>
+                                </div>
+                              </form>
+                        </div>
+                        <div class="card-footer">
+                            <button (click)="login()" class="btn btn-primary float-end">
+                                <i class="fa-solid fa-arrow-right-to-bracket"></i> login</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center mt-5">
+                    <span class="text-white">CopyRight 2022</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

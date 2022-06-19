@@ -1,0 +1,30 @@
+.user-cmp h4{
+    color : white;
+}
+
+.user-cmp .title{
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: #2C3A47;
+    margin-bottom: 30px;
+}
+
+.actions span{
+    cursor: pointer;
+    margin-right : 15px
+}
+
+.modal-header button,
+.offcanvas-header button{
+    border: none;
+}
+
+.modal-header, .modal-header button,
+.offcanvas-header, .offcanvas-header button{
+    color: white;
+    background-color: #2C3A47;
+}
+
+.offcanvas{
+    height: 70%;
+}

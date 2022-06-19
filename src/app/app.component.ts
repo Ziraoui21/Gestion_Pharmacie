@@ -1,4 +1,6 @@
+import { User } from './Models/User';
 import { Component } from '@angular/core';
+import { Medicament } from './Models/Medicament';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Gestion_Pharmacie';
+  
 }

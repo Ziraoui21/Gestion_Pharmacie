@@ -1,0 +1,286 @@
+<div class="container-fluid user-cmp">
+    <div class="row">
+        <div class="col-md-12 title">
+            <h4 class="d-inline">
+                <i class="fa-solid fa-money-check-dollar"></i>
+                Achats
+            </h4>
+            <button id="modalopen" data-bs-toggle="modal" data-bs-target="#achat" class="btn btn-light float-end btn-sm">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+                Achat (client non abonné)
+            </button>
+        </div>
+        <div class="col-md-8 mx-auto">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="text-dark">
+                        <i class="fa-solid fa-prescription-bottle-medical"></i>
+                        Médicaments
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="formMedicament">
+                        <div class="mb-3">
+                            <label class="form-label">Médicament</label>
+                            <select #med2 (change)="getMedId_M(med2.value)" formControlName="medicament_id" id="med2" class="form-control"
+                            [class.is-invalid]="getM_MID?.invalid && getM_MID?.touched || formMedicamentNotValid && getM_MID?.invalid">
+                                <option value="" disabled selected>Choisissez le médicament</option>
+                                <option *ngFor="let med of medicaments" [value]="med.id"
+                                [attr.disabled]="med.qte_s==0?true:null">
+                                    {{med.libelle}} <span *ngIf="med.qte_s==0">(Expiré)</span>
+                                </option>
+                            </select>
+                            <small class="text-danger"
+                            *ngIf="getM_MID?.invalid && getM_MID?.touched || formMedicamentNotValid && getM_MID?.invalid">
+                                Merci de choisi le médicament
+                            </small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Prix</label>
+                            <input type="number" formControlName="prix" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Quantité</label>
+                            <input formControlName="qte" type="number" class="form-control"
+                            [class.is-invalid]="getM_Qte?.invalid && getM_Qte?.touched && formMedicamentNotValid && getM_Qte?.invalid">
+                            <div *ngIf="getM_Qte?.invalid && getM_Qte?.touched || formMedicamentNotValid && getM_Qte?.invalid">
+                                <small *ngIf="getM_Qte?.hasError('required')" class="text-danger">
+                                    La quantité est obligatoire
+                                </small>
+                                <small *ngIf="getM_Qte?.hasError('min')" class="text-danger">
+                                    La quantité minimum c'est 1
+                                </small>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button (click)="create_ligne()" class="btn btn-primary float-end">
+                        <i class="fa-solid fa-file-circle-plus"></i>
+                        Enregistrer
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="medicaments_facture?.length!=0" class="col-md-12 mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-dark">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                        Facture
+                    </h4>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th><i class="fa-solid fa-hashtag"></i> Ref</th>
+                                <th><i class="fa-solid fa-tag"></i> Libelle</th>
+                                <th><i class="fa-solid fa-money-bill-wave"></i> Prix</th>
+                                <th><i class="fa-solid fa-boxes-stacked"></i> Quntité</th>
+                                <th><i class="fa-solid fa-money-bill-wave"></i> TTC</th>
+                                <th><i class="fa-solid fa-money-bill-wave"></i> Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ligne of medicaments_facture">
+                                <td>{{ligne.medicament.id}}</td>
+                                <td>{{ligne.medicament.libelle}}</td>
+                                <td>{{ligne.medicament.prix_vente}}</td>
+                                <td>{{ligne.qte}}</td>
+                                <td>{{ligne.TTC | number:'1.2-2'}} DH</td>
+                                <td class="actions text-center">
+                                    <span (click)="delete_ligne(ligne)" class="text-danger">
+                                        <i class="fa-solid fa-xmark fa-xl"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <button (click)="confirmer()" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#confirm">
+                        <i class="fa-solid fa-file-circle-check"></i>
+                        Confirmer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="achat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fa-solid fa-money-check-dollar"></i>
+            Nouveau achat
+            </h5>
+          <button (click)="formSortie_reset()" type="button" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa-solid fa-xmark fa-xl"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="formSortie">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Médicament</label>
+                            <select #med1 (change)="getMedId_S(med1.value)" formControlName="medicament_id" id="med1" class="form-control"
+                            [class.is-invalid]="getS_MdID?.invalid && getS_MdID?.touched ||
+                            formSortieNotValid && getS_MdID?.invalid">
+                                <option value="" selected disabled>Choisissez le médicament</option>
+                                <option [attr.disabled]="med.qte_s==0?true:null" *ngFor="let med of medicaments" [value]="med.id">
+                                    {{med.libelle}} <span *ngIf="med.qte_s==0">(Expiré)</span>
+                                </option>
+                            </select>
+                            <small class="text-danger" 
+                            *ngIf="getS_MdID?.invalid && getS_MdID?.touched ||
+                            formSortieNotValid && getS_MdID?.invalid">
+                                le médicament est obligatoire
+                            </small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Quantité</label>
+                            <input formControlName="qte" #qte type="number" class="form-control"
+                            [class.is-invalid]="getS_Qte?.invalid && getS_Qte?.touched ||
+                            formSortieNotValid && getS_Qte?.invalid">
+                            <div *ngIf="getS_Qte?.invalid && getS_Qte?.touched ||
+                            formSortieNotValid && getS_Qte?.invalid">
+                                <small class="text-danger" *ngIf="getS_Qte?.hasError('required')">
+                                    La quantité est obligaoire
+                                </small>
+                                <small class="text-danger" *ngIf="getS_Qte?.hasError('min')">
+                                    La quantité minimum c'est 1
+                                </small>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Prix</label>
+                            <input type="number" #prix formControlName="prix" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Espéce</label>
+                            <input formControlName="espece" type="number" class="form-control"
+                            [class.is-invalid]="getS_Espece?.invalid && getS_Espece?.touched ||
+                            formSortieNotValid && getS_Espece?.invalid">
+                            <div *ngIf="getS_Espece?.invalid && getS_Espece?.touched ||
+                            formSortieNotValid && getS_Espece?.invalid">
+                                <small class="text-danger" *ngIf="getS_Espece?.hasError('required')">
+                                    L'espéce est obligaoire
+                                </small>
+                                <small class="text-danger" *ngIf="getS_Espece?.hasError('min')">
+                                    le minimum espéce c'est 1
+                                </small>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <P class="form-label"><i class="fa-solid fa-hand-holding-dollar"></i>
+                                Le reste : {{calculReste(calculTTC(getS_Qte?.value,getS_Prix?.value),getS_Espece?.value) | number : '1.2-2'}} DH
+                            </P>
+                        </div>
+                        <div class="mb-3">
+                            <p class="form-label"><i class="fa-solid fa-hand-holding-dollar"></i>
+                                Total TTC : {{calculTTC(getS_Qte?.value,getS_Prix?.value) | number : '1.2-2'}} DH
+                            </p>
+                        </div>
+                        <div class="mb-3">
+                            <p class="form-label"><i class="fa-solid fa-hand-holding-dollar"></i>
+                                TVA 20%
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="formSortie_reset()" class="btn btn-secondary">
+            Annuler
+        </button>
+          <button type="button" (click)="create_sortie()" class="btn btn-success">
+            <i class="fa-solid fa-check"></i> 
+            Confirmer
+        </button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel"><i class="fa-solid fa-file-invoice-dollar"></i> Confirmation facture</h5>
+          <button (click)="formClient_reset()" id="modalClose" type="button" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa-solid fa-xmark fa-xl"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="formClient">
+                <div class="mb-3">
+                <label class="form-label">Client</label>
+                <select formControlName="client_id" id="clt" class="form-control"
+                [class.is-invalid]="getF_CltID?.invalid && getF_CltID?.touched ||
+                formClientNotValid && getF_CltID?.invalid">
+                    <option value="" disabled selected>Choisissez le client</option>
+                    <option *ngFor="let clt of clients" [value]="clt.id">
+                        {{clt.nom}}
+                    </option>
+                </select>
+                <small class="text-danger" 
+                    *ngIf="getF_CltID?.invalid && getF_CltID?.touched ||
+                    formClientNotValid && getF_CltID?.invalid">
+                    le client est obligatoire
+                </small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Prix d'avance</label>
+                    <input formControlName="prix_avance" type="number" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Espéce</label>
+                    <input formControlName="espece" type="number" class="form-control"
+                    [class.is-invalid]="getF_Espece?.invalid && getF_Espece?.touched ||
+                    formClientNotValid && getF_Espece?.invalid">
+                    <div *ngIf="getF_Espece?.invalid && getF_Espece?.touched ||
+                    formClientNotValid && getF_Espece?.invalid">
+                        <small class="text-danger" *ngIf="getF_Espece?.hasError('required')">
+                            L'espéce est obligaoire
+                        </small>
+                        <small class="text-danger" *ngIf="getF_Espece?.hasError('min')">
+                            l'espéce est invalide
+                        </small>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <h5 class="form-label">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                        Le reste : {{calculReste(totalTTC,getF_Espece?.value) | number : '1.2-2'}} DH
+                    </h5>
+                </div>
+                <div class="mb-3">
+                    <h5 class="form-label">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                        Total TTC : {{totalTTC | number : '1.2-2'}} DH
+                    </h5>
+                </div>
+                <div class="mb-3">
+                    <h5 class="form-label">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                        TVA 20%
+                    </h5>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button (click)="formClient_reset()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+            <button (click)="create_facture()" type="button" class="btn btn-success"><i class="fa-solid fa-check"></i> Confirmer</button>
+        </div>
+      </div>
+    </div>
+</div>

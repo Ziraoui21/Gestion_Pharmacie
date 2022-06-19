@@ -1,0 +1,21 @@
+.sidebar .sidebar-brand{
+    text-transform: none;
+}
+
+.layout .dropdown-item{
+    cursor: pointer;
+}
+
+.layout .content{
+    background-color : #ffffff;
+}
+
+.sidebar-brand img{
+    width: 50px;
+    height: 50px;
+}
+
+.sidebar-brand-text{
+    font-weight : 500;
+    font-size: 21px;
+}

@@ -1,0 +1,71 @@
+<div class="container-fluid user-cmp">
+    <div class="row">
+        <div class="col-md-12 title">
+            <h4 class="d-inline">
+                <i class="fa-solid fa-cubes-stacked"></i>
+                Gestion stock
+            </h4>
+        </div>
+       <div class="col-md-12">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th><i class="fa-solid fa-barcode"></i> Ref</th>
+                    <th><i class="fa-solid fa-tag"></i> Libelle</th>
+                    <th><i class="fa-solid fa-user-tie"></i> Fournisseur</th>
+                    <th><i class="fa-solid fa-boxes-stacked"></i> Quantité</th>
+                    <th><i class="fa-solid fa-sliders"></i> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let medicament of medicaments">
+                    <td>{{medicament.id}}</td>
+                    <td>{{medicament.libelle | titlecase}}</td>
+                    <td>{{medicament.fournisseur.nom_f | titlecase}}</td>
+                    <td class="font-weight-bold" [class.text-danger]="medicament.qte_s==0">{{medicament.qte_s}}</td>
+                    <td class="actions text-center">
+                        <span (click)="setMedicament(medicament)" class="text-dark" data-bs-toggle="modal" data-bs-target="#charger">
+                            <i class="fa-solid fa-share"></i>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+       </div> 
+    </div>
+</div>
+
+<div class="modal fade" id="charger" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel"><i class="fa-solid fa-box"></i> Quantité</h5>
+          <button type="button" (click)="resetForm()" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa-solid fa-xmark fa-xl"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+           <form [formGroup]="form">
+                <div class="mb-3">
+                    <label class="form-label">Quantité</label>
+                    <input type="number" formControlName="qte" class="form-control"
+                    [class.is-invalid]="getQte?.invalid && getQte?.touched || formNotValid">
+                    <div *ngIf="getQte?.invalid && getQte?.touched || formNotValid">
+                        <small *ngIf="getQte?.hasError('required')" class="text-danger">
+                            La quantité est obligatoire
+                        </small>
+                        <small *ngIf="getQte?.hasError('min')" class="text-danger">
+                            La quantité minimum c'est 1
+                        </small>
+                    </div>
+                </div>
+           </form>
+        </div>
+        <div class="modal-footer">
+          <button (click)="resetForm()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <button type="button" (click)="commander()" class="btn btn-primary"><i class="fa-solid fa-envelope-circle-check"></i> demander</button>
+        </div>
+      </div>
+    </div>
+</div>
+

@@ -1,0 +1,124 @@
+<div class="container-fluid user-cmp" data-aos="fade-down">
+    <div class="row">
+        <div class="col-md-12 title">
+            <h4 class="d-inline">
+                <i class="fa-solid fa-users-gear color-white"></i> 
+                Gestion utilisateurs
+            </h4>
+            <button class="btn btn-light float-end btn-sm" data-bs-toggle="modal" data-bs-target="#create">
+                <i class="fa-solid fa-user-plus"></i>
+                Nouveau utilisateur
+            </button>
+        </div>
+       <div class="col-md-12">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th><i class="fa-solid fa-id-card-clip"></i> ID</th>
+                    <th><i class="fa-solid fa-user-tag"></i> Nom</th>
+                    <th><i class="fa-solid fa-at"></i> Email</th>
+                    <th><i class="fa-solid fa-user-lock"></i> Role</th>
+                    <th><i class="fa-solid fa-user-gear"></i> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>{{user.id}}</td>
+                    <td>{{user.name | titlecase}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.role.name | titlecase}}</td>
+                    <td class="actions">
+                        <span class="text-danger" (click)="delete(user)">
+                            <i class="fa-solid fa-user-xmark"></i>
+                        </span>
+                        <span *ngIf="user.role.id == 2" (click)="setAdmin(user.id)" class="text-success">
+                            <i class="fa-solid fa-user-pen"></i>
+                        </span>
+                      </td>
+                </tr>
+            </tbody>
+        </table>
+       </div> 
+    </div>
+</div>
+
+
+<div class="modal fade" id="create" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">y>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            <i class="fa-solid fa-user-plus"></i>
+            Nouveau utilisateur
+        </h5>
+          <button type="button" (click)="resetForm()" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa-solid fa-xmark fa-xl"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="fcreate">
+                <div class="mb-3">
+                  <label class="form-label">Nom</label>
+                  <input type="text" [class.is-invalid]="getName?.invalid && getName?.touched || formInvalid && getEmail?.invalid" formControlName="name" class="form-control">
+                  <small *ngIf="getName?.invalid && getName?.touched || formInvalid && getName?.invalid" class="text-danger">
+                      Le nom est obligatoire
+                  </small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Adresse email</label>
+                    <input type="email" [class.is-invalid]="getEmail?.invalid && getEmail?.touched || formInvalid && getEmail?.invalid" formControlName="email" class="form-control">
+                    <div *ngIf="getEmail?.invalid && getEmail?.touched  || formInvalid && getEmail?.invalid">
+                        <small class="text-danger" *ngIf="getEmail?.hasError('required')">
+                          L'adreese email est obligatoire
+                        </small>
+                        <small class="text-danger" *ngIf="getEmail?.hasError('email') ">
+                          L'adreese email est invalid
+                        </small>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Role</label>
+                    <select class="form-control" id="role" formControlName="role_id" 
+                    [class.is-invalid]="getRoleId?.invalid && getRoleId?.touched || formInvalid && getRoleId?.invalid">
+                        <option value="" selected disabled>Sélectionner un role</option>
+                        <option value="1">Administrateur</option>
+                        <option value="2">Utilisateur</option>
+                    </select>
+
+                    <small *ngIf="getRoleId?.invalid && getRoleId?.touched || formInvalid && getRoleId?.invalid" class="text-danger">Le role est obligatoire</small>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Mot de passe</label>
+                  <input type="password" [class.is-invalid]="getNewPassword?.hasError('minlength') && getNewPassword?.touched || formInvalid && getNewPassword?.invalid" 
+                  formControlName="newPassword" class="form-control">
+                  <div *ngIf="getNewPassword?.invalid && getNewPassword?.touched || formInvalid && getNewPassword?.invalid">
+                    <small class="text-danger" *ngIf="getNewPassword?.hasError('required')">
+                      le mot de passe est obligatoire
+                    </small>
+                    <small class="text-danger" *ngIf="getNewPassword?.hasError('minlength') && getNewPassword?.touched || formInvalid && getNewPassword?.hasError('minlength')">
+                      Mot de passe doit être contient au minimum 8 caractéres
+                    </small>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Confirmer mot de passe</label>
+                  <input type="password" formControlName="confirmPassword" class="form-control">
+                  <!-- {{checkConfirmpassword()}} -->
+                  <div *ngIf="getConfirmPassword?.invalid && getConfirmPassword?.touched || formInvalid && getConfirmPassword?.invalid">
+                    <small class="text-danger" *ngIf="getNewPassword?.hasError('required')">
+                      Confirmation de mot de passe est obligatoire
+                    </small>
+                  </div>
+                  <small class="text-danger" *ngIf="!checkConfirmpassword() && getConfirmPassword?.touched || formInvalid && !checkConfirmpassword()" class="text-danger">
+                    Ces mots de passe ne correspondent pas. Veuillez réssayer
+                  </small>
+                </div>
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" (click)="resetForm()">Annuler</button>
+          <button type="button" (click)="create()" class="btn btn-success"><i class="fa-solid fa-user-plus"></i> Enregistrer</button>
+        </div>
+      </div>
+    </div>
+</div>

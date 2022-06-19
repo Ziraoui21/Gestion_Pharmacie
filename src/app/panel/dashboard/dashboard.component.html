@@ -1,0 +1,227 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="text-dark mb-4"><i class="fa-solid fa-gauge-high"></i> Dashboard</h3>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4" *ngIf="is_admin">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                les Ventes du jour (HT)
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{dashRes.ventes_jour}} DH
+                             </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-money-bill-transfer fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4" *ngIf="is_admin">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                les Ventes du mois (HT)
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{dashRes.ventes_mois}} DH
+                             </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-money-bill-transfer fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4" *ngIf="is_admin">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                les ventes totale (HT)
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{dashRes.total_ventes | number : '1.2-2'}} DH
+                             </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-sack-dollar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Avances total
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{dashRes.avances_total}} DH
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-hand-holding-dollar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Nombre de clients
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{dashRes.nombre_clients}}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Nombre de médicaments
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{dashRes.nombre_medicaments}}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-briefcase-medical fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                médicaments avec quantité expiré
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{dashRes.medicaments_qte_expire}}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-boxes-stacked fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                médicaments avec date expiré
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{dashRes.medicaments_date_expire}}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-calendar-xmark fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                nombre de factures non confirmé
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{dashRes.factues_non_confirme}}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-file-invoice-dollar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Nombre de factures confirmé
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{dashRes.factures_confirme}}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-briefcase-medical fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Nombre des entrées journaliers
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{dashRes.entree_jour}}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-solid fa-box fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
