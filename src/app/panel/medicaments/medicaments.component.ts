@@ -229,6 +229,17 @@ export class MedicamentsComponent implements OnInit, OnDestroy {
     }
   }
 
+  resetInfos()
+  {
+    this.factures = [];
+    this.entrees = [];
+    this.sorties = [];
+
+    this.hasEntrees = false;
+    this.hasSorties = false;
+    this.hasFactures = false;
+  }
+
   reloadMedicaments(): void {
     this.medicamentsAPI.medicaments().subscribe((data)=>{
       this.rerender();

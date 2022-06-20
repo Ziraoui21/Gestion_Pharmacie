@@ -1,7 +1,7 @@
-<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+<div class="offcanvas offcanvas-top" data-bs-backdrop="static" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasTopLabel"><i class="fa-solid fa-arrow-right-arrow-left"></i> Les opérations</h5>
-      <button type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+      <button type="button" (click)="resetInfos()" data-bs-dismiss="offcanvas" aria-label="Close">
          <i class="fa-solid fa-xmark fa-xl"></i>
       </button>
     </div>

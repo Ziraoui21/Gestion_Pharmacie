@@ -29,7 +29,7 @@ const routes: Routes = [
     canActivate : [AuthGuard],
     children : [
       {
-        path : 'achats',
+        path : 'vente',
         component : AchatComponent
       },
       {
@@ -46,7 +46,7 @@ const routes: Routes = [
         component : FactureComponent
       },
       {
-        path : 'operations/entrees',
+        path : 'operations/achat',
         component : EntreesComponent
       },
       {

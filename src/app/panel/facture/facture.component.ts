@@ -35,7 +35,7 @@ export class FactureComponent implements OnInit, OnDestroy {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
-      order: [[2, 'desc']],
+      order: [[2, 'desc']]
     };
 
     this.facturesAPI.factures().subscribe((data)=>{
@@ -96,5 +96,13 @@ export class FactureComponent implements OnInit, OnDestroy {
       this.rerender();
       this.factures = data;
     });
+  }
+
+  resetCalcul()
+  {
+    this.HT = 0;
+    this.TVA = 0;
+    this.TTC = 0;
+    this.medicaments = [];
   }
 }
