@@ -69,7 +69,8 @@ export class EntreesComponent implements OnInit, OnDestroy {
         console.log(data)
         if(data.status)
         {
-          Notify.success("L'augmentation de stock a réussie");
+          Notify.success("L'augmentation de stock est réussie");
+          document.getElementById('close')?.click();
           this.getQte?.patchValue(1);
           this.reloadMedicaments();
         }

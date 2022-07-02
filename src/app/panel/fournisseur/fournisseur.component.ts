@@ -52,6 +52,7 @@ export class FournisseurComponent implements OnInit,OnDestroy {
       pageLength: 10,
       processing: true,
       order: [[0, 'desc']],
+      dom: 'Bfrtip',
   };
 
     this.fournisseursAPI.fournisseurs().subscribe((data)=>{
@@ -100,7 +101,8 @@ export class FournisseurComponent implements OnInit,OnDestroy {
           Notify.failure("Cet numéro de téléphone déja utilisé par un autre fournisseur");
         if(data.status)
         {
-          Notify.success(`L'ajout de fournisseur ${fournisseur.nom_f} a réussie`);
+          Notify.success(`L'ajout de fournisseur ${fournisseur.nom_f} est réussie`);
+          document.getElementById('close')?.click();
           this.resetForm();
           this.reloadfournisseurs();
         }
@@ -143,7 +145,8 @@ export class FournisseurComponent implements OnInit,OnDestroy {
           Notify.failure("Cet numéro de téléphone déja utilisé par un autre fournisseur");
         if(data.status)
         {
-          Notify.success(`Modification de fournisseur ${fournisseur.nom_f} a réussie`);
+          Notify.success(`Modification de fournisseur ${fournisseur.nom_f} est réussie`);
+          document.getElementById('close')?.click();
           this.reloadfournisseurs();
         }
       });

@@ -68,7 +68,7 @@
         <div class="col-md-12 title">
             <h4 class="d-inline">
                 <i class="fa-solid fa-notes-medical"></i>
-                Gestion médicaments
+                Gestion des médicaments
             </h4>
             <button id="modalopen" data-bs-toggle="modal" data-bs-target="#create-edit" class="btn btn-light float-end btn-sm">
                 <i class="fa-solid fa-prescription-bottle-medical"></i>
@@ -124,7 +124,7 @@
         <div class="modal-header">
             <h5 *ngIf="!is_edit" class="modal-title"><i class="fa-solid fa-prescription-bottle-medical"></i> Nouveau médicament</h5>
             <h5 *ngIf="is_edit" class="modal-title"><i class="fa-solid fa-user-pen"></i> Modification</h5>
-            <button type="button" (click)="createMode()" data-bs-dismiss="modal" aria-label="Close">
+            <button type="button" (click)="createMode()" id="close" data-bs-dismiss="modal" aria-label="Close">
                 <i class="fa-solid fa-xmark fa-xl"></i>
             </button>
         </div>

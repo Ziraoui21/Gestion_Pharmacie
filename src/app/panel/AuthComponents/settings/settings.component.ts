@@ -61,11 +61,12 @@ export class SettingsComponent implements OnInit {
         this.auth.editUser(this.user).subscribe((data)=>{
           if(data.status)
           {
-            Notify.success('Modification réussie')
+            Notify.success('Modification est réussie')
 
             localStorage.setItem('user',JSON.stringify(this.user));
             this.getConfirmPassword?.reset();
             this.getNewPassword?.reset();
+            document.getElementById('close')?.click();
           }
           else
           {

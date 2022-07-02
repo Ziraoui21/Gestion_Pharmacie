@@ -64,6 +64,7 @@ export class MedicamentsComponent implements OnInit, OnDestroy {
       pageLength: 10,
       processing: true,
       order: [[0, 'desc']],
+      dom: 'Bfrtip',
     };
 
     Notify.init({
@@ -110,7 +111,8 @@ export class MedicamentsComponent implements OnInit, OnDestroy {
         if(data.status)
         {
           this.reloadMedicaments();
-          Notify.success(`Le médicament ${medicament.libelle} a ajouté avec succés`);
+          Notify.success(`Le médicament ${medicament.libelle} est ajouté avec succés`);
+          document.getElementById('close')?.click();
           this.resetForm();
         }
       })
@@ -152,7 +154,8 @@ export class MedicamentsComponent implements OnInit, OnDestroy {
       this.medicamentsAPI.update(medicament).subscribe((data)=>{
         if(data.status)
         {
-          Notify.success(`Le médicament ${medicament.libelle} a modifié avec succés`);
+          Notify.success(`Le médicament ${medicament.libelle} est modifié avec succés`);
+          document.getElementById('close')?.click();
           this.reloadMedicaments();
         }
       })
@@ -179,7 +182,7 @@ export class MedicamentsComponent implements OnInit, OnDestroy {
         this.medicamentsAPI.delete(medicament).subscribe((data)=>{
           if(data.status)
           {
-            Notify.success("la suppression a réussie");
+            Notify.success("la suppression est réussie");
             this.reloadMedicaments();
           }
         })

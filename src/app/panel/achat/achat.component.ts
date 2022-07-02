@@ -117,8 +117,8 @@ export class AchatComponent implements OnInit {
       this.achatAPI.createSortie(sortie).subscribe((data)=>{
         if(data.status)
         {
-          Notify.success("l'enregistrement de l'achat a réussie");
-
+          Notify.success("l'enregistrement du vente est réussie");
+          document.getElementById('close')?.click();
           this.formSortie_reset();
         }
       })
@@ -141,7 +141,7 @@ export class AchatComponent implements OnInit {
 
       this.medicaments_facture.push(ligne);
       this.formMedicament_reset()
-      Notify.success(`Le médicament ${ligne.medicament.libelle} a ajouté avec succés`);
+      Notify.success(`Le médicament ${ligne.medicament.libelle} est ajouté avec succés`);
       this.reloadMedicaments();
     }
     else
@@ -175,7 +175,7 @@ export class AchatComponent implements OnInit {
       this.achatAPI.createFacture(data).subscribe((data)=>{
         if(data.status)
         {
-          Notify.success("la facture a confirmé avec succés");
+          Notify.success("la facture est confirmé avec succés");
           this.formClient_reset();
           document.getElementById('modalClose')?.click();
           this.medicaments_facture = [];

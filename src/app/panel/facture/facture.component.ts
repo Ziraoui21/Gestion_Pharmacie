@@ -35,7 +35,8 @@ export class FactureComponent implements OnInit, OnDestroy {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
-      order: [[2, 'desc']]
+      order: [[2, 'desc']],
+      dom: 'Bfrtip',
     };
 
     this.facturesAPI.factures().subscribe((data)=>{
@@ -72,7 +73,7 @@ export class FactureComponent implements OnInit, OnDestroy {
         this.facturesAPI.confirm(facture).subscribe((data)=>{
           if(data.status)
           {
-            Notify.success("Cette facture a confirmé avec succés");
+            Notify.success("Cette facture est confirmé avec succés");
             this.relaodFactures();
           }
         })

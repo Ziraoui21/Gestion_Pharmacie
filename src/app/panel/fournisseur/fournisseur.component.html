@@ -35,7 +35,7 @@
         <div class="col-md-12 title">
             <h4 class="d-inline">
                 <i class="fa-solid fa-user-tie"></i>
-                Gestion fournisseurs
+                Gestion des fournisseurs
             </h4>
             <button id="modalopen" data-bs-toggle="modal" data-bs-target="#create-edit"
             class="btn btn-light float-end btn-sm" *ngIf="is_admin">
@@ -83,7 +83,7 @@
         <div class="modal-header">
             <h5 *ngIf="!is_edit" class="modal-title"><i class="fa-solid fa-user-tie"></i> Nouveau fournisseur</h5>
             <h5 *ngIf="is_edit" class="modal-title"><i class="fa-solid fa-user-pen"></i> Modification</h5>
-            <button type="button" (click)="createMode()" data-bs-dismiss="modal" aria-label="Close">
+            <button type="button" (click)="createMode()" id="close" data-bs-dismiss="modal" aria-label="Close">
                 <i class="fa-solid fa-xmark fa-xl"></i>
             </button>
         </div>

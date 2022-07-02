@@ -51,6 +51,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
       pageLength: 10,
       processing: true,
       order: [[0, 'desc']],
+      dom: 'Bfrtip',
     };
 
     Notify.init({
@@ -103,8 +104,9 @@ export class ClientsComponent implements OnInit, OnDestroy {
       this.clientsAPI.update(client).subscribe((data)=>{
         if(data.status)
         {
-          Notify.success(`Modification de client ${client.nom} a réussie`);
+          Notify.success(`Modification de client ${client.nom} est réussie`);
           this.reloadClients();
+          document.getElementById('close')?.click();
         }
         else
         {
@@ -130,7 +132,8 @@ export class ClientsComponent implements OnInit, OnDestroy {
       this.clientsAPI.create(client).subscribe((data)=>{
         if(data.status)
         {
-          Notify.success(`L'ajout de client ${client.nom} a réussie`);
+          Notify.success(`L'ajout de client ${client.nom} est réussie`);
+          document.getElementById('close')?.click();
           this.resetForm();
           this.reloadClients();
         }
@@ -162,7 +165,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
         this.clientsAPI.delete(client).subscribe((data)=>{
           if(data.status)
           {
-            Notify.success("la suppression a réussie");
+            Notify.success("la suppression est réussie");
             this.reloadClients()
           }
         })
