@@ -69,7 +69,8 @@ export class StockComponent implements OnInit {
       .subscribe((data)=>{
         if(data.status)
         {
-          Notify.success('La commande a envoyé au fournisseur avec succés');
+          Notify.success('La commande est envoyé au fournisseur avec succés');
+          document.getElementById('close')?.click();
           this.resetForm();
         }
       });

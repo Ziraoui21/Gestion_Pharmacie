@@ -39,7 +39,13 @@
                 "src/admin_panel/vendor/jquery-easing/jquery.easing.min.js",
                 "src/admin_panel/js/sb-admin-2.js",
                 "node_modules/datatables.net/js/jquery.dataTables.js",
-                "node_modules/datatables.net-bs5/js/dataTables.bootstrap5.min.js"
+                "node_modules/datatables.net-bs5/js/dataTables.bootstrap5.min.js",
+                "node_modules/jszip/dist/jszip.js",
+                "node_modules/datatables.net-buttons/js/dataTables.buttons.js",
+                "node_modules/datatables.net-buttons/js/buttons.colVis.js",
+                "node_modules/datatables.net-buttons/js/buttons.flash.js",
+                "node_modules/datatables.net-buttons/js/buttons.html5.js",
+                "node_modules/datatables.net-buttons/js/buttons.print.js"
             ]
           },
           "configurations": {

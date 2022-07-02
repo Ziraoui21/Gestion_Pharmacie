@@ -3,7 +3,7 @@
         <div class="col-md-12 title">
             <h4 class="d-inline">
                 <i class="fa-solid fa-users-gear color-white"></i> 
-                Gestion utilisateurs
+                Gestion des utilisateurs
             </h4>
             <button class="btn btn-light float-end btn-sm" data-bs-toggle="modal" data-bs-target="#create">
                 <i class="fa-solid fa-user-plus"></i>
@@ -51,7 +51,7 @@
             <i class="fa-solid fa-user-plus"></i>
             Nouveau utilisateur
         </h5>
-          <button type="button" (click)="resetForm()" data-bs-dismiss="modal" aria-label="Close">
+          <button type="button" (click)="resetForm()" id="close" data-bs-dismiss="modal" aria-label="Close">
             <i class="fa-solid fa-xmark fa-xl"></i>
           </button>
         </div>
@@ -82,7 +82,7 @@
                     [class.is-invalid]="getRoleId?.invalid && getRoleId?.touched || formInvalid && getRoleId?.invalid">
                         <option value="" selected disabled>Sélectionner un role</option>
                         <option value="1">Administrateur</option>
-                        <option value="2">Utilisateur</option>
+                        <option value="2">Pharmacien</option>
                     </select>
 
                     <small *ngIf="getRoleId?.invalid && getRoleId?.touched || formInvalid && getRoleId?.invalid" class="text-danger">Le role est obligatoire</small>

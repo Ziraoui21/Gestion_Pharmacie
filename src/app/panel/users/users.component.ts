@@ -45,6 +45,7 @@ export class UsersComponent implements OnInit,OnDestroy{
       pageLength: 10,
       processing: true,
       order: [[0, 'desc']],
+      dom: 'Bfrtip',
     };
 
     this.usersAPI.users().subscribe((data)=>{
@@ -88,7 +89,8 @@ export class UsersComponent implements OnInit,OnDestroy{
       this.usersAPI.create(newUser).subscribe((data)=>{
         if(data.status)
         {
-          Notify.success("l'enregistrement a réussie");
+          Notify.success("l'enregistrement est réussie");
+          document.getElementById('close')?.click();
           this.reloadUsers();
           this.resetForm();
         }
@@ -132,7 +134,7 @@ export class UsersComponent implements OnInit,OnDestroy{
 
           if(data.status)
           {
-            Notify.success("la suppression a réussie");
+            Notify.success("la suppression est réussie");
             this.reloadUsers();
           }
 
@@ -157,7 +159,7 @@ export class UsersComponent implements OnInit,OnDestroy{
 
           if(data.status)
           {
-            Notify.success("le changement de role a réussie");
+            Notify.success("le changement de role est réussie");
             this.reloadUsers();
           }
 

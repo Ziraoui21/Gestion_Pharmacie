@@ -28,6 +28,7 @@ export class VentesComponent implements OnInit {
       pageLength: 10,
       processing: true,
       order: [[2, 'asc']],
+      dom: 'Bfrtip',
     };
 
     this.ventesAPI.ventes().subscribe((data)=>{
