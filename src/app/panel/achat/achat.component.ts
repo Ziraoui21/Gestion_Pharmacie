@@ -135,6 +135,7 @@ export class AchatComponent implements OnInit {
       ligne.medicament = this.medicaments.find((med)=>{
         return med.id == this.getM_MID?.value;
       }) as Medicament;
+      
       ligne.medicament_id = ligne.medicament.id;
       ligne.qte = this.getM_Qte?.value;
       ligne.TTC = this.calculTTC(ligne.qte.toString(),ligne.medicament.prix_vente.toString())
